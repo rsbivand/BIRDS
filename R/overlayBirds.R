@@ -45,9 +45,7 @@ includeUniqueSpillover <- function(birdData, grid, visitCol){
   
   GridInObsList<-sp::over(birdData, grid, returnList=FALSE)
   
-  obs$grid<-GridInObsList
-  
-  crossTab<-table("grid"=obs[!is.na(obs$grid),"grid"], "visits"=obs[!is.na(obs$grid),visitCol])
+  crossTab<-table("grid"=GridInObsList[!is.na(GridInObsList)], "visits"=obs[!is.na(GridInObsList),visitCol])
   
   for(v in dimnames(crossTab)$visits){
     
@@ -57,10 +55,9 @@ includeUniqueSpillover <- function(birdData, grid, visitCol){
   }
   
   res<-list()
-  cols<-1:ncol(obs)-1 #Drop the grid-col
   
   for(g in 1:length(grid)){
-    res[[g]]<-obs[obs[,visitCol] %in% visits[visits[,2]==g,1],cols]
+    res[[g]]<-obs[obs[,visitCol] %in% visits[visits[,2]==g,1],]
   }
   
   return(res)
